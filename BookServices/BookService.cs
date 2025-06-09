@@ -10,14 +10,9 @@ namespace LibrarySystem
     public class BookService : IBookService
     {
         private readonly IBookRepository _repo;
-        private BookRepository repo;
+        
 
         public BookService(IBookRepository repo) => _repo = repo;
-
-        public BookService(BookRepository repo)
-        {
-            this._repo = repo;
-        }
 
         public (bool Success, string Message) BorrowBook(string title)
         {
@@ -52,9 +47,9 @@ namespace LibrarySystem
             return (true, "Book Succesfully Donated");
         }
 
-        public IEnumerable<Book> GetAllBooks() => _repo.GetAll().OfType<Book>();
-        public IEnumerable<Book> GetAvailableBooks() => _repo.GetAll().OfType<Book>().Where(b => b.Available);
-        public IEnumerable<Book> GetUnavailableBooks() => _repo.GetAll().OfType<Book>().Where(b => !b.Available);
+        public IEnumerable<BookBase> GetAllBooks() => _repo.GetAll().OfType<BookBase>();
+        public IEnumerable<BookBase> GetAvailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => b.Available);
+        public IEnumerable<BookBase> GetUnavailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => !b.Available);
 
     }
 

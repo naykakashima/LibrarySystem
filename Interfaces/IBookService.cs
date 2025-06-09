@@ -12,9 +12,9 @@ namespace LibrarySystem
         (bool Success, string Message) BorrowBook(string title);
         (bool Success, string Message) ReturnBook(string title);
         (bool Success, string Message) DonateBook(string title, string author);
-        public IEnumerable<Book> GetAllBooks();
-        public IEnumerable<Book> GetAvailableBooks();
-        public IEnumerable<Book> GetUnavailableBooks();
+        public IEnumerable<BookBase> GetAllBooks();
+        public IEnumerable<BookBase> GetAvailableBooks();
+        public IEnumerable<BookBase> GetUnavailableBooks();
 
     }
 }

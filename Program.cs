@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace LibrarySystem
@@ -14,6 +15,8 @@ namespace LibrarySystem
     {
         static void Main(string[] args)
         {
+            var services = new ServiceCollection();
+
             var books = new List<BookBase>
             {
                 new Book("The Hobbit", "J.R.R. Tolkien", true),
@@ -24,12 +27,19 @@ namespace LibrarySystem
                 new AudioBook("Dune", "Frank Herbert", 450)
             };
 
-            var repo = new BookRepository(books);
-            var service = new BookService(repo);
-            var menu = new Menu(service);
+            services.AddSingleton<IBookRepository>(provider => new BookRepository(books));
 
-            menu.Show();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<Menu>();
 
+            var serviceProvider = services.BuildServiceProvider();
+
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var menu = scope.ServiceProvider.GetRequiredService<Menu>();
+                menu.Show();
+            }
         }
 
 

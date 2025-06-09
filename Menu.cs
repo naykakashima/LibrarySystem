@@ -13,10 +13,12 @@ namespace LibrarySystem
     {
         private readonly IBookService _bookService;
 
-        public Menu(BookService bookService)
+        public Menu(IBookService bookService)
         {
             _bookService = bookService;
         }
+
+     
 
         public void Show()
         {
@@ -85,7 +87,13 @@ namespace LibrarySystem
             Console.WriteLine("\n--- AVAILABLE BOOKS ---");
             foreach (var book in availableBooks)
             {
-                Console.WriteLine($"- {book.Title} by {book.Author}");
+                if (book is AudioBook audioBook)
+                {
+                    Console.WriteLine($"- {audioBook.Title} (AudioBook) - Duration: {audioBook.RuntimeMinutes} mins");
+                } else if (book is Book)
+                {
+                    Console.WriteLine($"- {book.Title} by {book.Author}");
+                }
             }
             Console.WriteLine("-----------------------\n");
 
