@@ -1,4 +1,5 @@
-﻿using LibrarySystem;
+﻿
+using LibrarySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,6 @@ namespace LibrarySystem
         private readonly IBookService _bookService;
 
         public Menu(BookService bookService)
-        {
-            _bookService = bookService;
-        }
-
-        public Menu(IBookService bookService)
         {
             _bookService = bookService;
         }

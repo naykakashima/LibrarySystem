@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace LibrarySystem
 {
-    public class Book : BookBase
+    public interface IBookRepository
     {
-        public Book(string title, string author, bool available) : base(title, author, available) { }
+        void Add(BookBase book);
+        BookBase? FindByTitle(string title);
+        IEnumerable<BookBase> GetAll();
     }
 }

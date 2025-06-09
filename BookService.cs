@@ -9,21 +9,22 @@ namespace LibrarySystem
 {
     public class BookService : IBookService
     {
-        private readonly List<Book> _books;
+        private readonly IBookRepository _repo;
+        private BookRepository repo;
 
-        public BookService(List<Book> books)
+        public BookService(IBookRepository repo) => _repo = repo;
+
+        public BookService(BookRepository repo)
         {
-            _books = books ?? throw new ArgumentNullException(nameof(books));
+            this._repo = repo;
         }
 
         public (bool Success, string Message) BorrowBook(string title)
         {
-            var book = _books.FirstOrDefault(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            var book = _repo.FindByTitle(title);
 
-            if (book == null)
-                return (false, "Book Not Found");
-            if (!book.Available)
-                return (false, "Book Is Not Available");
+            if (book == null || !book.CanBeBorrowed())
+                return (false, "Book cannot be borrowed!");
 
             book.Available = false;
             return (true, "Book Successfully Borrowed");
@@ -31,7 +32,7 @@ namespace LibrarySystem
 
         public (bool Success, string Message) ReturnBook(string title)
         {
-            var book = _books.FirstOrDefault(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            var book = _repo.FindByTitle(title);
 
             if (book == null)
                 return (false, "Book Doesn't Exist");
@@ -44,16 +45,16 @@ namespace LibrarySystem
 
         public (bool Success, string Message) DonateBook(string title, string author)
         {
-            if (_books.Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
+            if (_repo.GetAll().Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
                 return (false, "Book Is Already In The System!");
 
-            _books.Add(new Book(title, author, true));
+            _repo.Add(new Book(title, author, true));
             return (true, "Book Succesfully Donated");
         }
 
-        public IEnumerable<Book> GetAllBooks() => _books;
-        public IEnumerable<Book> GetAvailableBooks() => _books.Where(b => b.Available);
-        public IEnumerable<Book> GetUnavailableBooks() => _books.Where(b => !b.Available);
+        public IEnumerable<Book> GetAllBooks() => _repo.GetAll().OfType<Book>();
+        public IEnumerable<Book> GetAvailableBooks() => _repo.GetAll().OfType<Book>().Where(b => b.Available);
+        public IEnumerable<Book> GetUnavailableBooks() => _repo.GetAll().OfType<Book>().Where(b => !b.Available);
 
     }
 
