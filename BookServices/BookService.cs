@@ -9,7 +9,6 @@ namespace LibrarySystem
 {
     public class BookService : IBookService
     {
-
         private readonly IBookRepository _repo;
 
         public BookService(IBookRepository repo)
@@ -17,9 +16,9 @@ namespace LibrarySystem
             _repo = repo;
         }
 
-        public (bool Success, string Message) BorrowBook(string title)
+        public async Task<(bool Success, string Message)> BorrowBookAsync(string title)
         {
-            var book = _repo.FindByTitle(title);
+            var book = await _repo.FindByTitleAsync(title);
 
             if (book == null || !book.CanBeBorrowed())
                 return (false, "Book cannot be borrowed!");
@@ -28,9 +27,9 @@ namespace LibrarySystem
             return (true, "Book Successfully Borrowed");
         }
 
-        public (bool Success, string Message) ReturnBook(string title)
+        public async Task<(bool Success, string Message)> ReturnBookAsync(string title)
         {
-            var book = _repo.FindByTitle(title);
+            var book = await _repo.FindByTitleAsync(title);
 
             if (book == null)
                 return (false, "Book Doesn't Exist");
@@ -41,20 +40,29 @@ namespace LibrarySystem
             return (true, "Book Successfully Returned");
         }
 
-        public (bool Success, string Message) DonateBook(string title, string author)
+        public async Task<(bool Success, string Message)> DonateBookAsync(string title, string author)
         {
-            if (_repo.GetAll().Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
+            var allBooks = await _repo.GetAllAsync();
+            if (allBooks.Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
                 return (false, "Book Is Already In The System!");
 
-            _repo.Add(new Book(title, author, true));
-            return (true, "Book Succesfully Donated");
+            await _repo.AddAsync(new Book(title, author, true));
+            return (true, "Book Successfully Donated");
         }
 
-        public IEnumerable<BookBase> GetAllBooks() => _repo.GetAll().OfType<BookBase>();
-        public IEnumerable<BookBase> GetAvailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => b.Available);
-        public IEnumerable<BookBase> GetUnavailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => !b.Available);
+        public async Task<IEnumerable<BookBase>> GetAllBooksAsync()
+        {
+            return (await _repo.GetAllAsync()).OfType<BookBase>();
+        }
 
+        public async Task<IEnumerable<BookBase>> GetAvailableBooksAsync()
+        {
+            return (await _repo.GetAllAsync()).OfType<BookBase>().Where(b => b.Available);
+        }
+
+        public async Task<IEnumerable<BookBase>> GetUnavailableBooksAsync()
+        {
+            return (await _repo.GetAllAsync()).OfType<BookBase>().Where(b => !b.Available);
+        }
     }
-
-
 }

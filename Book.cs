@@ -10,4 +10,5 @@ namespace LibrarySystem
     {
         public Book(string title, string author, bool available) : base(title, author, available) { }
     }
+
 }

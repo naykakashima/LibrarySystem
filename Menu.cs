@@ -20,7 +20,7 @@ namespace LibrarySystem
 
      
 
-        public void Show()
+        public async Task ShowAsync()
         {
             while (true)
             {
@@ -46,22 +46,22 @@ namespace LibrarySystem
                 {
                     case 1:
                         var borrowTitle = PromptUserInput("Enter Book Title: ");
-                        result = _bookService.BorrowBook(borrowTitle);
+                        result = await _bookService.BorrowBookAsync(borrowTitle);
                         Console.WriteLine(result.Message);
                         break;
                     case 2:
                         var returnTitle = PromptUserInput("Enter Book Title: ");
-                        result = _bookService.ReturnBook(returnTitle);
+                        result = await _bookService.ReturnBookAsync(returnTitle);
                         Console.WriteLine(result.Message);
                         break;
                     case 3:
                         var donateTitle = PromptUserInput("Enter Book Title: ");
                         var donateAuthor = PromptUserInput("Enter Book Author: ");
-                        result = _bookService.DonateBook(donateTitle, donateAuthor);
+                        result = await  _bookService.DonateBookAsync(donateTitle, donateAuthor);
                         Console.WriteLine(result.Message);
                         break;
                     case 4:
-                        DisplayAvailableBooks();
+                        await DisplayAvailableBooksAsync();
                         break;
                     case 5:
                         Console.WriteLine("Goodbye!");
@@ -74,9 +74,9 @@ namespace LibrarySystem
             }
         }
 
-        private void DisplayAvailableBooks()
+        private async Task DisplayAvailableBooksAsync()
         {
-            var availableBooks = _bookService.GetAvailableBooks();
+            var availableBooks = await _bookService.GetAvailableBooksAsync();
 
             if (!availableBooks.Any())
             {

@@ -1,40 +1,41 @@
 ﻿using LibrarySystem;
+using LibrarySystem.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem
 {
     public class BookRepository : IBookRepository
     {
+        private readonly LibraryDbContext _context;
 
-        private readonly List<BookBase> _repo;
-
-        public BookRepository()
+        public BookRepository(LibraryDbContext context)
         {
-            _repo = new List<BookBase>
-            {
-                new Book("The Hobbit", "J.R.R. Tolkien", true),
-                new Book("Dune", "Frank Herbert", false),
-                new Book("The Martian", "Andy Weir", true),
-                new Book("Educated", "Tara Westover", true),
-                new Book("Project Hail Mary", "Andy Weir", false),
-                new Book("Atomic Habits", "James Clear", true),
-                new AudioBook("Dune", "Frank Herbert", 450)
-            };
+            _context = context;
         }
 
-        
-        public void Add(BookBase book) => _repo.Add(book);
-        public BookBase FindByTitle(string title)
+        public async Task AddAsync(BookBase book)
         {
-            return _repo.FirstOrDefault(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            _context.Add(book);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<BookBase> GetAll() => _repo;
+        public async Task<BookBase?> FindByTitleAsync(string title)
+        {
+            return await _context.Set<BookBase>()
+                .FirstOrDefaultAsync(b => b.Title.ToLower() == title.ToLower());
+        }
+
+        public async Task<IEnumerable<BookBase>> GetAllAsync()
+        {
+            return await _context.Set<BookBase>().ToListAsync();
+        }
     }
+
 }
 
 

@@ -8,10 +8,10 @@ namespace LibrarySystem
 {
     public interface IBookRepository
     {
-        void Add(BookBase book);
-        BookBase? FindByTitle(string title);
-        IEnumerable<BookBase> GetAll();
+        Task AddAsync(BookBase book);
+        Task<BookBase?> FindByTitleAsync(string title);
+        Task<IEnumerable<BookBase>> GetAllAsync();
 
-        
+
     }
 }

@@ -9,11 +9,15 @@ namespace LibrarySystem
 {
     public abstract class BookBase
     {
-        public string Title { get; }
-        public string Author { get; }
+
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
         public bool Available { get; set; }
 
-    
+
+        public BookBase() { }
+
 
         public BookBase(string title, string author, bool available)
         {

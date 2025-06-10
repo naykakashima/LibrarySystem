@@ -9,12 +9,13 @@ namespace LibrarySystem
 {
     public interface IBookService
     {
-        (bool Success, string Message) BorrowBook(string title);
-        (bool Success, string Message) ReturnBook(string title);
-        (bool Success, string Message) DonateBook(string title, string author);
-        public IEnumerable<BookBase> GetAllBooks();
-        public IEnumerable<BookBase> GetAvailableBooks();
-        public IEnumerable<BookBase> GetUnavailableBooks();
+        Task<(bool Success, string Message)> BorrowBookAsync(string title);
+        Task<(bool Success, string Message)> ReturnBookAsync(string title);
+        Task<(bool Success, string Message)> DonateBookAsync(string title, string author);
+
+        Task<IEnumerable<BookBase>> GetAllBooksAsync();
+        Task<IEnumerable<BookBase>> GetAvailableBooksAsync();
+        Task<IEnumerable<BookBase>> GetUnavailableBooksAsync();
 
     }
 }
