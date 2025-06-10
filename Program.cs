@@ -17,19 +17,8 @@ namespace LibrarySystem
         {
             var services = new ServiceCollection();
 
-            var books = new List<BookBase>
-            {
-                new Book("The Hobbit", "J.R.R. Tolkien", true),
-                new Book("Dune", "Frank Herbert", false),
-                new Book("The Martian", "Andy Weir", true),
-                new Book("Educated", "Tara Westover", true),
-                new Book("Project Hail Mary", "Andy Weir", false),
-                new AudioBook("Dune", "Frank Herbert", 450)
-            };
-
-            services.AddSingleton<IBookRepository>(provider => new BookRepository(books));
-
-            services.AddScoped<IBookService, BookService>();
+            services.AddSingleton<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, MockBookService>();
             services.AddScoped<Menu>();
 
             var serviceProvider = services.BuildServiceProvider();

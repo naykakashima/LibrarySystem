@@ -7,21 +7,16 @@ namespace LibrarySystem
 {
     public class MockBookService : IBookService
     {
-        // Mock data - in-memory list of books
-        private readonly List<Book> _mockBooks = new()
-        {
-            new Book("The Hobbit", "J.R.R. Tolkien", true),
-            new Book("Dune", "Frank Herbert", false), // Borrowed
-            new Book("The Martian", "Andy Weir", true),
-            new Book("Educated", "Tara Westover", false), // Borrowed
-            new Book("Project Hail Mary", "Andy Weir", true)
+        private readonly IBookRepository _repo;
 
-        };
+        public MockBookService(IBookRepository repo)
+        {
+            _repo = repo;
+        }
 
         public (bool Success, string Message) BorrowBook(string title)
         {
-            var book = _mockBooks.FirstOrDefault(b =>
-                b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            var book = _repo.FindByTitle(title);
 
             if (book == null)
                 return (false, "❌ [MOCK] Book not found!");
@@ -34,8 +29,7 @@ namespace LibrarySystem
 
         public (bool Success, string Message) ReturnBook(string title)
         {
-            var book = _mockBooks.FirstOrDefault(b =>
-                b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            var book = _repo.FindByTitle(title);
 
             if (book == null)
                 return (false, "❌ [MOCK] Book not found!");
@@ -48,15 +42,15 @@ namespace LibrarySystem
 
         public (bool Success, string Message) DonateBook(string title, string author)
         {
-            if (_mockBooks.Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
+            if (_repo.GetAll().Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
                 return (false, "❌ [MOCK] Book already exists!");
 
-            _mockBooks.Add(new Book(title, author, true));
+            _repo.Add(new Book(title, author, true));
             return (true, "✅ [MOCK] Book donated successfully!");
         }
 
-        public IEnumerable<BookBase> GetAllBooks() => _mockBooks;
-        public IEnumerable<BookBase> GetAvailableBooks() => _mockBooks.Where(b => b.Available);
-        public IEnumerable<BookBase> GetUnavailableBooks() => _mockBooks.Where(b => !b.Available);
+        public IEnumerable<BookBase> GetAllBooks() => _repo.GetAll().OfType<BookBase>();
+        public IEnumerable<BookBase> GetAvailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => b.Available);
+        public IEnumerable<BookBase> GetUnavailableBooks() => _repo.GetAll().OfType<BookBase>().Where(b => b.Available);
     }
 }

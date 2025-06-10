@@ -11,5 +11,7 @@ namespace LibrarySystem
         void Add(BookBase book);
         BookBase? FindByTitle(string title);
         IEnumerable<BookBase> GetAll();
+
+        
     }
 }
