@@ -15,10 +15,6 @@ namespace LibrarySystem
         public string Author { get; set; }
         public bool Available { get; set; }
 
-
-        public BookBase() { }
-
-
         public BookBase(string title, string author, bool available)
         {
             Title = title;

@@ -28,16 +28,18 @@ namespace LibrarySystem
                 Console.WriteLine("1. Borrow a book");
                 Console.WriteLine("2. Return a book");
                 Console.WriteLine("3. Donate a book");
-                Console.WriteLine("4. Display Available books");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("4. Donate an audio book");
+                Console.WriteLine("5. Display Available books");
+                Console.WriteLine("6. Display All Books");
+                Console.WriteLine("7. Exit");
                 Console.WriteLine("Type in the number of what you want to do: ");
                 Console.WriteLine("+------------------------------------------+");
 
                 int res;
 
-                while (!int.TryParse(Console.ReadLine(), out res) || res < 1 || res > 5)
+                while (!int.TryParse(Console.ReadLine(), out res) || res < 1 || res > 7)
                 {
-                    Console.WriteLine("Invalid input! Enter 1-5:");
+                    Console.WriteLine("Invalid input! Enter 1-6:");
                 }
 
                 (bool Success, string Message) result;
@@ -61,9 +63,19 @@ namespace LibrarySystem
                         Console.WriteLine(result.Message);
                         break;
                     case 4:
-                        await DisplayAvailableBooksAsync();
+                        var donateAudioBookTitle = PromptUserInput("Enter Audio Book Title: ");
+                        var donateAudioBookAuthor = PromptUserInput("Enter Audio Book Author: ");
+                        int donateAudioBookRuntime = PromptUserInputInt("Enter Audio Book Runtime: ");
+                        result = await _bookService.DonateAudioBookAsync(donateAudioBookTitle, donateAudioBookAuthor, donateAudioBookRuntime);
+                        Console.WriteLine(result.Message);
                         break;
                     case 5:
+                        await DisplayAvailableBooksAsync();
+                        break;
+                    case 6:
+                        await DisplayBooksAsync();
+                        break;
+                    case 7:
                         Console.WriteLine("Goodbye!");
                         Thread.Sleep(1000);
                         return;
@@ -89,8 +101,34 @@ namespace LibrarySystem
             {
                 if (book is AudioBook audioBook)
                 {
-                    Console.WriteLine($"- {audioBook.Title} (AudioBook) - Duration: {audioBook.RuntimeMinutes} mins");
+                    Console.WriteLine($"- {audioBook.Title} (AudioBook) - Duration: {audioBook.runtimeMinutes} mins");
                 } else if (book is Book)
+                {
+                    Console.WriteLine($"- {book.Title} by {book.Author}");
+                }
+            }
+            Console.WriteLine("-----------------------\n");
+
+        }
+
+        private async Task DisplayBooksAsync()
+        {
+            var Books = await _bookService.GetAllBooksAsync();
+
+            if (!Books.Any())
+            {
+                Console.WriteLine("No books in the library right now.");
+                return;
+            }
+
+            Console.WriteLine("\n--- AVAILABLE BOOKS ---");
+            foreach (var book in Books)
+            {
+                if (book is AudioBook audioBook)
+                {
+                    Console.WriteLine($"- {audioBook.Title} (AudioBook) - Duration: {audioBook.runtimeMinutes} mins");
+                }
+                else if (book is Book)
                 {
                     Console.WriteLine($"- {book.Title} by {book.Author}");
                 }
@@ -104,6 +142,19 @@ namespace LibrarySystem
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+
+        private int PromptUserInputInt(string message)
+        {
+            Console.WriteLine(message);
+            int value;
+            while (!int.TryParse(Console.ReadLine(), out value))
+            {
+                Console.WriteLine("Please enter a valid number: ");
+            }
+            
+            return value;
+        }
+
 
     }
 }

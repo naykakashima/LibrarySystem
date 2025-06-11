@@ -8,15 +8,11 @@ namespace LibrarySystem
 {
     public class AudioBook : BookBase
     {
-        public int RuntimeMinutes { get; set; }
-
-        public AudioBook(string title, string author, int runtimeMinutes) : base (title, author, available : true)
+        public int runtimeMinutes { get; set; }
+        public AudioBook(string title, string author, int runtimeMinutes, bool available) : base (title, author, available)
         {
-            RuntimeMinutes = runtimeMinutes;
-        }
+            this.runtimeMinutes = runtimeMinutes;
+        }        
 
-        public override bool CanBeBorrowed() => base.CanBeBorrowed() && RuntimeMinutes < 300;
-        //only allows short audio books
-        
     }
 }

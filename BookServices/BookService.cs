@@ -50,6 +50,17 @@ namespace LibrarySystem
             return (true, "Book Successfully Donated");
         }
 
+        public async Task<(bool Success, string Message)> DonateAudioBookAsync(string title, string author, int runtimeMinutes)
+        {
+            var allBooks = await _repo.GetAllAsync();
+            if (allBooks.Any(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase)))
+                return (false, "Book Is Already In The System!");
+
+            await _repo.AddAsync(new AudioBook(title, author, runtimeMinutes, true));
+            return (true, "Book Successfully Donated");
+        }
+
+
         public async Task<IEnumerable<BookBase>> GetAllBooksAsync()
         {
             return (await _repo.GetAllAsync()).OfType<BookBase>();
