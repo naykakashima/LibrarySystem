@@ -1,8 +1,8 @@
-﻿### Library System
+﻿## Library System
 
 A simple console-based Library Management System built with .NET and Entity Framework Core, using a normalized SQL Server database schema. The application supports borrowing, returning, and donating both physical and audio books. It uses Table-per-Type (TPT) inheritance and globally unique identifiers (GUIDs) for primary keys.
 
-## Features
+### Features
 
 - Borrow and return books
 - Donate physical and audio books
@@ -13,7 +13,7 @@ A simple console-based Library Management System built with .NET and Entity Fram
 - Table-per-Type (TPT) mapping for clean separation of Book and AudioBook entities
 - Serilog to keep track of all events that have occured
 
-## Technologies Used
+### Technologies Used
 
 - .NET 9
 - C#
@@ -22,7 +22,7 @@ A simple console-based Library Management System built with .NET and Entity Fram
 - LINQ
 - Serilog
 
-## Database Design
+### Database Design
 
 The database schema is normalized using EF Core's TPT inheritance pattern:
 
@@ -32,7 +32,7 @@ The database schema is normalized using EF Core's TPT inheritance pattern:
 
 All tables use a `Guid` as the primary key to support scalability and distributed systems.
 
-## Project Structure
+### Project Structure
 
 - `BookBase.cs`: Abstract base class for all book types
 - `Book.cs`: Represents a standard book
@@ -45,13 +45,13 @@ All tables use a `Guid` as the primary key to support scalability and distribute
 
 ## Setup Instructions
 
-# Prerequisites
+### Prerequisites
 
 - [.NET SDK](https://dotnet.microsoft.com/download)
 - SQL Server (Express or Standard)
 - EF Core CLI (`dotnet tool install --global dotnet-ef`)
 
-# 1. Clone the Repository
+1. Clone the Repository
 
 ``` 
 git clone https://github.com/yourusername/LibrarySystem.git
