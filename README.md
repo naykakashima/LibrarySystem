@@ -11,6 +11,7 @@ A simple console-based Library Management System built with .NET and Entity Fram
 - Persistent storage using a normalized relational database
 - GUIDs used as primary keys
 - Table-per-Type (TPT) mapping for clean separation of Book and AudioBook entities
+- Serilog to keep track of all events that have occured
 
 ## Technologies Used
 
@@ -19,6 +20,7 @@ A simple console-based Library Management System built with .NET and Entity Fram
 - Entity Framework Core
 - SQL Server
 - LINQ
+- Serilog
 
 ## Database Design
 
@@ -41,3 +43,47 @@ All tables use a `Guid` as the primary key to support scalability and distribute
 - `Menu.cs`: User interface logic
 - `Program.cs`: Application entry point
 
+## Setup Instructions
+
+# Prerequisites
+
+- [.NET SDK](https://dotnet.microsoft.com/download)
+- SQL Server (Express or Standard)
+- EF Core CLI (`dotnet tool install --global dotnet-ef`)
+
+# 1. Clone the Repository
+
+``` 
+git clone https://github.com/yourusername/LibrarySystem.git
+cd LibrarySystem
+```
+
+2. Configure the Connection String
+Edit the connection string in appsettings.json or within LibraryDbContext.cs:
+
+```
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=LibrarySystemDb;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+3. Apply the Database Migrations
+
+If migrations already exist:
+
+```
+dotnet ef database update
+```
+
+To create a new migration (optional):
+
+```
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+4. Run the Application
+
+```
+dotnet run
+```

@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Serilog;
 
 
 namespace LibrarySystem
@@ -21,24 +21,39 @@ namespace LibrarySystem
     {
         static async Task Main(string[] args)
         {
-            using IHost host = CreateHostBuilder(args).Build();
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 
-            var menu = host.Services.GetRequiredService<Menu>();
-            await menu.ShowAsync();
+            try
+            {
+                Log.Information("Starting Library System...");
 
-            await host.RunAsync();
+                using IHost host = CreateHostBuilder(args).Build();
+                var menu = host.Services.GetRequiredService<Menu>();
+                await menu.ShowAsync();
+                await host.RunAsync();
+
+                Log.Information("Application exited cleanly.");
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application crashed!");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
-
-        static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureServices((context, services) =>
-                {
-                    services.AddDbContext<LibraryDbContext>(options =>
-                        options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
-
-                    services.AddScoped<IBookRepository, BookRepository>();
-                    services.AddScoped<IBookService, BookService>();
-                    services.AddScoped<Menu>();
-                });
+        static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args).ConfigureServices((context, services) =>
+        {
+            services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<Menu>();
+        });
     }
 }
 
