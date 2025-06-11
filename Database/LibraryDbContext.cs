@@ -19,10 +19,12 @@ namespace LibrarySystem.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Book>().HasBaseType<BookBase>();
-            modelBuilder.Entity<AudioBook>().HasBaseType<BookBase>();
+            modelBuilder.Entity<BookBase>().ToTable("Books");
+            modelBuilder.Entity<Book>().ToTable("Books_Physical");
+            modelBuilder.Entity<AudioBook>().ToTable("Books_Audio");
 
-            base.OnModelCreating(modelBuilder);
+            // Configure GUID as PK
+            modelBuilder.Entity<BookBase>().HasKey(b => b.Id);
         }
     }
 

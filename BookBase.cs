@@ -10,7 +10,8 @@ namespace LibrarySystem
     public abstract class BookBase
     {
 
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         public string Title { get; set; }
         public string Author { get; set; }
         public bool Available { get; set; }
