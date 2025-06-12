@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Database;
+﻿using LibrarySystem;
+using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

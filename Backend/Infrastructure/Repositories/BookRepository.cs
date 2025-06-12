@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Database;
+﻿#nullable enable
+using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

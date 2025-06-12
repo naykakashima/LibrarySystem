@@ -1,89 +1,93 @@
-﻿## Library System
+﻿# LibrarySystem
 
-A simple console-based Library Management System built with .NET and Entity Framework Core, using a normalized SQL Server database schema. The application supports borrowing, returning, and donating both physical and audio books. It uses Table-per-Type (TPT) inheritance and globally unique identifiers (GUIDs) for primary keys.
+A modular and clean-architecture-driven library management system built with .NET 9.0. Includes a console application for basic interaction and a Web API with Swagger UI for modern consumption.
 
-### Features
+---
 
-- Borrow and return books
-- Donate physical and audio books
-- Display available books
-- Display all books in the library
-- Persistent storage using a normalized relational database
-- GUIDs used as primary keys
-- Table-per-Type (TPT) mapping for clean separation of Book and AudioBook entities
-- Serilog to keep track of all events that have occured
+## Project Structure
 
-### Technologies Used
+```yaml
 
-- .NET 9
-- C#
+LibrarySystem/
+│
+├── Backend/
+│ ├── Application/
+│ │ └── Library.Application/
+│ │ ├── BookServices/
+│ │ └── Interfaces/
+│ │ ├── IBookRepository.cs
+│ │ └── IBookService.cs
+│ │
+│ ├── Domain/
+│ │ └── Library.Domain/
+│ │ ├── Book.cs
+│ │ ├── AudioBook.cs
+│ │ └── BookBase.cs
+│ │
+│ ├── Infrastructure/
+│ │ └── Library.Infrastructure/
+│ │ ├── Database/
+│ │ │ └── LibraryDbContext.cs
+│ │ ├── Migrations/
+│ │ └── Repositories/
+│ │ └── BookRepository.cs
+│ │
+│ ├── Presentation/
+│ │ ├── Library.ConsoleApplication/
+│ │ │ ├── Program.cs
+│ │ │ └── Menu.cs
+│ │ │
+│ │ └── Library.WebAPI/
+│ │ ├── Controllers/
+│ │ │ └── BooksController.cs
+│ │ ├── Program.cs
+│ │ └── appsettings.json
+│
+└── LibrarySystem.sln
+
+```
+---
+
+## Technologies Used
+
+- [.NET 9.0](https://dotnet.microsoft.com/)
+- ASP.NET Core Web API
 - Entity Framework Core
 - SQL Server
-- LINQ
-- Serilog
+- Swagger / OpenAPI
+- Dependency Injection
+- Clean Architecture (DDD, SOLID, DRY)
 
-### Database Design
+---
 
-The database schema is normalized using EF Core's TPT inheritance pattern:
-
-- `Books`: Base table for shared properties (ID, Title, Author, Available)
-- `Books_Physical`: Table for physical books
-- `Books_Audio`: Table for audiobooks with an additional `RuntimeMinutes` column
-
-All tables use a `Guid` as the primary key to support scalability and distributed systems.
-
-### Project Structure
-
-- `BookBase.cs`: Abstract base class for all book types
-- `Book.cs`: Represents a standard book
-- `AudioBook.cs`: Represents an audiobook with runtime
-- `LibraryDbContext.cs`: EF Core DbContext class
-- `BookRepository.cs`: Handles database operations
-- `BookService.cs`: Implements core business logic
-- `Menu.cs`: User interface logic
-- `Program.cs`: Application entry point
-
-## Setup Instructions
+## Getting Started
 
 ### Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download)
-- SQL Server (Express or Standard)
-- EF Core CLI (`dotnet tool install --global dotnet-ef`)
+- .NET 9 SDK
+- SQL Server
+- IDE: Visual Studio or VS Code
 
-1. Clone the Repository
+### Running the Web API
 
-``` 
-git clone https://github.com/yourusername/LibrarySystem.git
-cd LibrarySystem
-```
+1. **Update `appsettings.json`** with your database connection string under `Library.WebAPI`.
+2. **Apply EF migrations** (if needed):
+	```bash
+   dotnet ef database update --project Library.Infrastructure
+	```
+3.Run the Web API:
+  
+  ```bash
+  cd Backend/Presentation/Library.WebAPI
+  dotnet run
+  ```
+Open your browser to:
+https://localhost:<port>/swagger
 
-2. Configure the Connection String
-Edit the connection string in appsettings.json or within LibraryDbContext.cs:
+# Project Principles
 
-```
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=LibrarySystemDb;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-```
-
-3. Apply the Database Migrations
-
-If migrations already exist:
-
-```
-dotnet ef database update
-```
-
-To create a new migration (optional):
-
-```
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
-
-4. Run the Application
-
-```
-dotnet run
-```
+Great care was taken with the following:
+- Clean Architecture: Domain logic is at the core, surrounded by Application, Infrastructure, and Presentation layers.
+- SOLID principles: Each class has a single responsibility and is loosely coupled.
+- DRY: Shared logic is abstracted and reused.
+- Separation of Concerns: Each layer has a focused role.
