@@ -75,7 +75,7 @@ LibrarySystem/
 	```bash
    dotnet ef database update --project Library.Infrastructure
 	```
-3.Run the Web API:
+3. Run the Web API:
   
   ```bash
   cd Backend/Presentation/Library.WebAPI

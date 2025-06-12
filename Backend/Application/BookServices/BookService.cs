@@ -53,6 +53,10 @@
             return (true, "Book Successfully Donated");
         }
 
+        public async Task<BookBase?> GetBookByIdAsync(Guid id)
+        {
+            return await _repo.GetByIdAsync(id);
+        }
 
         public async Task<IEnumerable<BookBase>> GetAllBooksAsync()
         {

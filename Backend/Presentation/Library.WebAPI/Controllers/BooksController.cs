@@ -20,5 +20,14 @@ namespace Library.WebAPI.Controllers
             var books = await _bookService.GetAllBooksAsync();
             return Ok(books);
         }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetBookById(Guid id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null) return NotFound();
+            return Ok(book);
+        }
+
     }
 }

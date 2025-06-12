@@ -11,6 +11,7 @@ namespace LibrarySystem
         Task AddAsync(BookBase book);
         Task<BookBase?> FindByTitleAsync(string title);
         Task<IEnumerable<BookBase>> GetAllAsync();
+        Task<BookBase?> GetByIdAsync(Guid id);
 
 
     }

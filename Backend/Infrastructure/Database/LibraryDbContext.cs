@@ -4,7 +4,7 @@ namespace LibrarySystem.Database
 {
     public class LibraryDbContext : DbContext
     {
-        public DbSet<Book> Books { get; set; }
+        public DbSet<Book> Books { get; set; } = null!;
         public DbSet<AudioBook> AudioBooks { get; set; }
 
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)

@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,8 +24,12 @@ namespace LibrarySystem
 
         public async Task<BookBase?> FindByTitleAsync(string title)
         {
-            return await _context.Set<BookBase>()
-                .FirstOrDefaultAsync(b => b.Title.ToLower() == title.ToLower());
+            return await _context.Set<BookBase>() .FirstOrDefaultAsync(b => b.Title.ToLower() == title.ToLower());
+        }
+
+        public async Task<BookBase?> GetByIdAsync(Guid id)
+        {
+            return await _context.Set<BookBase>().FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<IEnumerable<BookBase>> GetAllAsync()
