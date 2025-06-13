@@ -36,8 +36,32 @@ namespace LibrarySystem
         {
             return await _context.Set<BookBase>().ToListAsync();
         }
-    }
 
+        public async Task<bool> UpdateAsync(Guid id, string title, string author, bool available)
+        {
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
+                return false;
+
+            book.Title = title;
+            book.Author = author;
+            book.Available = available;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var book = await _context.Books.FindAsync(id);
+            if (book == null) 
+                return false;
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
 }
 
 

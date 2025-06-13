@@ -76,11 +76,10 @@ LibrarySystem/
    dotnet ef database update --project Library.Infrastructure
 	```
 3. Run the Web API:
-  
-  ```bash
-  cd Backend/Presentation/Library.WebAPI
-  dotnet run
-  ```
+	```bash
+	cd Backend/Presentation/Library.WebAPI
+	dotnet run
+    ```
 Open your browser to:
 https://localhost:<port>/swagger
 

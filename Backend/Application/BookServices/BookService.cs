@@ -53,6 +53,14 @@
             return (true, "Book Successfully Donated");
         }
 
+        public async Task<(bool Success, string Message)> UpdateBookAsync(Guid id, string title, string author, bool available)
+        {
+            var updated = await _repo.UpdateAsync(id, title, author, available);
+            return updated
+                ? (true, "Book successfully updated.")
+                : (false, "Book not found.");
+        }
+
         public async Task<BookBase?> GetBookByIdAsync(Guid id)
         {
             return await _repo.GetByIdAsync(id);
@@ -71,6 +79,14 @@
         public async Task<IEnumerable<BookBase>> GetUnavailableBooksAsync()
         {
             return (await _repo.GetAllAsync()).OfType<BookBase>().Where(b => !b.Available);
+        }
+
+        public async Task<(bool Success, string Message)> DeleteBookAsync(Guid id)
+        {
+            var deleted = await _repo.DeleteAsync(id);
+            return deleted
+                ? (true, "Book deleted successfully.")
+                : (false, "Book not found.");
         }
     }
 }
