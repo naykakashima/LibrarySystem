@@ -76,6 +76,8 @@ namespace Library.WebAPI.Controllers
             }
         }
 
+        
+
         [HttpDelete("DeleteBook/{id}")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {

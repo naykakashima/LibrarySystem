@@ -53,7 +53,7 @@ namespace LibrarySystem
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
             if (book == null) 
                 return false;
 
