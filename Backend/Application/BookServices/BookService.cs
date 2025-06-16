@@ -1,4 +1,6 @@
-﻿namespace LibrarySystem
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace LibrarySystem
 {
     public class BookService : IBookService
     {
@@ -66,9 +68,34 @@
             return await _repo.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<BookBase>> GetAllBooksAsync()
+        public async Task<List<BookDisplayDto>> GetAllBooksAsync()
         {
-            return (await _repo.GetAllAsync()).OfType<BookBase>();
+            var physicalBooks = await _repo.GetAll()
+                .OfType<Book>()
+                .Select(b => new BookDisplayDto
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Available = b.Available,
+                    Type = "Book"
+                })
+                .ToListAsync();
+
+            var audioBooks = await _repo.GetAll()
+                .OfType<AudioBook>()
+                .Select(ab => new BookDisplayDto
+                {
+                    Id = ab.Id,
+                    Title = ab.Title,
+                    Author = ab.Author,
+                    Available = ab.Available,
+                    Type = "AudioBook",
+                    RuntimeMinutes = ab.runtimeMinutes
+                })
+                .ToListAsync();
+
+            return physicalBooks.Concat(audioBooks).ToList();
         }
 
         public async Task<IEnumerable<BookBase>> GetAvailableBooksAsync()

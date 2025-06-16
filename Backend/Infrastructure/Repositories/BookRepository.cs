@@ -3,6 +3,7 @@ using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LibrarySystem
@@ -35,6 +36,11 @@ namespace LibrarySystem
         public async Task<IEnumerable<BookBase>> GetAllAsync()
         {
             return await _context.Set<BookBase>().ToListAsync();
+        }
+
+        public IQueryable<BookBase> GetAll()
+        {
+            return _context.Set<BookBase>().AsNoTracking();
         }
 
         public async Task<bool> UpdateAsync(Guid id, string title, string author, bool available)

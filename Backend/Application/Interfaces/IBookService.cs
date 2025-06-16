@@ -9,7 +9,7 @@
         Task<(bool Success, string Message)> UpdateBookAsync(Guid id, string title, string author, bool available);
         Task<(bool Success, string Message)> DeleteBookAsync(Guid id);
         Task<BookBase?> GetBookByIdAsync(Guid id);
-        Task<IEnumerable<BookBase>> GetAllBooksAsync();
+        Task<List<BookDisplayDto>> GetAllBooksAsync();
         Task<IEnumerable<BookBase>> GetAvailableBooksAsync();
         Task<IEnumerable<BookBase>> GetUnavailableBooksAsync();
 

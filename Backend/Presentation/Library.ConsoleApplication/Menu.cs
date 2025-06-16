@@ -140,9 +140,9 @@ namespace LibrarySystem
             Console.WriteLine("\n--- ALL BOOKS ---");
             foreach (var book in books)
             {
-                if (book is AudioBook audioBook)
-                    Console.WriteLine($"- {audioBook.Title} (AudioBook) - Duration: {audioBook.runtimeMinutes} mins");
-                else if (book is Book)
+                if (book.Type == "AudioBook")
+                    Console.WriteLine($"- {book.Title} (AudioBook) - Duration: {book.RuntimeMinutes} mins");
+                else
                     Console.WriteLine($"- {book.Title} by {book.Author}");
             }
             Console.WriteLine("-----------------------\n");
