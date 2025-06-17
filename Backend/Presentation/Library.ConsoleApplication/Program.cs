@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Threading.Tasks;
+using Library.Application.Interfaces;
 
 
 namespace LibrarySystem

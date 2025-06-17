@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibrarySystem;
 
-namespace LibrarySystem
+namespace Library.Application.Interfaces
+
 {
     public interface IBookRepository
     {

@@ -1,8 +1,15 @@
 #nullable enable
 
+using Library.Infrastructure.Repositories;
 using LibrarySystem;
-using Microsoft.EntityFrameworkCore;
+using LibrarySystem.Application.Auth;
 using LibrarySystem.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Library.Application.Interfaces;
+using Library.Infrastructure.Security;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +23,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     
 builder.Services.AddCors(options =>

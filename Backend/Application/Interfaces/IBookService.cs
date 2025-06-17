@@ -1,4 +1,6 @@
-﻿namespace LibrarySystem
+﻿using LibrarySystem.Application.DTO;
+
+namespace LibrarySystem
 {
     public interface IBookService
     {

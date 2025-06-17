@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibrarySystem
+namespace LibrarySystem.Application.DTO
 {
     public class BookDisplayDto
     {
