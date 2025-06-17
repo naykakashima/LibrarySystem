@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 using Library.Application.Interfaces;
 
 
+
+
 namespace LibrarySystem.Application.Auth
 {
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
         public async Task<User> RegisterUserAsync(RegisterUserDto dto)
         {
@@ -41,6 +45,25 @@ namespace LibrarySystem.Application.Auth
             await _userRepository.AddAsync(newUser);
 
             return newUser;
+        }
+
+        public async Task<AuthResponseDto> LoginUserAsync(LoginUserDto dto)
+        {
+            var user = await _userRepository.GetByUsernameOrEmailAsync(dto.UsernameOrEmail, dto.UsernameOrEmail);
+            if (user == null)
+                throw new Exception("User not found");
+
+            if (!_passwordHasher.VerifyPassword(user.PasswordHash, dto.Password))
+                throw new Exception("Invalid password");
+
+            var token = _jwtTokenGenerator.GenerateToken(user);
+
+            return new AuthResponseDto
+            {
+                Token = token,
+                Username = user.Username,
+                Email = user.Email,
+            };
         }
     }
 }

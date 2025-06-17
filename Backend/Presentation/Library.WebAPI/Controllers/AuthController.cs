@@ -37,5 +37,19 @@ namespace Library.WebAPI.Controllers
             }
 
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
+        {
+            try
+            {
+                var result = await _authService.LoginUserAsync(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = $"{ex.Message}" });
+            }
+        }
     }
 }
