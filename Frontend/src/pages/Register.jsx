@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useRegister }  from '../hooks/useRegister.js';
+
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -10,8 +11,8 @@ export default function Register() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { Register } = useRegister();
   const navigate = useNavigate();
+  const { Register } = useRegister();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +81,7 @@ export default function Register() {
           disabled={isLoading}
           className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? 'Registering...' : 'Register'}
         </button>
       </form>
     </div>
