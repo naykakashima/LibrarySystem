@@ -1,6 +1,7 @@
 ﻿using LibrarySystem;
 using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.Application.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Library.WebAPI.Controllers
@@ -16,6 +17,7 @@ namespace Library.WebAPI.Controllers
             _bookService = bookService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllBooks()
         {
@@ -23,6 +25,7 @@ namespace Library.WebAPI.Controllers
             return Ok(books);
         }
 
+        [Authorize]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetBookById(Guid id)
         {
@@ -31,6 +34,7 @@ namespace Library.WebAPI.Controllers
             return Ok(book);
         }
 
+        [Authorize]
         [HttpPost("AddBook")]
         public async Task<IActionResult> AddBook([FromBody] BookDto newBook)
         {
@@ -45,6 +49,7 @@ namespace Library.WebAPI.Controllers
             return Ok(newBook);
         }
 
+        [Authorize]
         [HttpPost("AddAudioBook")]
         public async Task<IActionResult> AddAudioBook([FromBody] AudioBookDto newAudioBook)
         {
@@ -59,6 +64,7 @@ namespace Library.WebAPI.Controllers
             return Ok(newAudioBook);
         }
 
+        [Authorize]
         [HttpPut("UpdateBook/{id}")]
         public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBookDto dto)
         {
@@ -77,8 +83,8 @@ namespace Library.WebAPI.Controllers
             }
         }
 
-        
 
+        [Authorize]
         [HttpDelete("DeleteBook/{id}")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Library.Application.DTO;
+﻿using Library.Application.DTO;
 using Library.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Library.WebAPI.Controllers
@@ -17,6 +18,7 @@ namespace Library.WebAPI.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
@@ -38,6 +40,7 @@ namespace Library.WebAPI.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
@@ -50,6 +53,14 @@ namespace Library.WebAPI.Controllers
             {
                 return Unauthorized(new { message = $"{ex.Message}" });
             }
+        }
+
+        [Authorize]
+        [HttpGet("protected")]
+        public IActionResult GetProtectedData()
+        {
+            var username = User.Identity?.Name;
+            return Ok($"Hey {username}!, Welcome to kay's library");
         }
     }
 }
