@@ -95,11 +95,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication(); 
 
 app.UseAuthorization();
-
-app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
