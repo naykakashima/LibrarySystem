@@ -26,7 +26,7 @@ export default function Register() {
     
     try {
       await Register(formData);
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       setError('Failed to sign up. Please check your credentials.');
       console.error(err);

@@ -39,7 +39,12 @@ class BookService {
 
 
   async getBookById(id) {
-    const response = await fetch(`${API_BASE_URL}/Books/${id}`);
+    const response = await fetch(`${API_BASE_URL}/Books/${id}`, {
+      headers: {
+        ...authHeader()
+      }
+    }
+  );
     if (!response.ok) {
       throw new Error('Failed to fetch book');
     }
@@ -51,6 +56,7 @@ class BookService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authHeader(),
       },
       body: JSON.stringify({
         title: bookData.title,

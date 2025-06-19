@@ -4,9 +4,12 @@ import  Login  from './pages/Login';
 import  Register  from './pages/Register';
 import  ProtectedRoute  from './components/ProtectedRoute';
 import  Books  from './pages/Books';
+import  BookDetails  from './pages/BookDetails';
+import AddBook from './pages/AddBook';
 import { AuthProvider } from './contexts/AuthContext';
 import React from 'react';
 import './App.css';
+
 
 function App() {
   return(
@@ -22,8 +25,9 @@ function App() {
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
             <Route path="/books" element={<Books />} />
-            {/* <Route path="/books/:id" element={<BookDetails />} /> */}
-            {/* <Route path="/protected" element={<ProtectedPage />} /> */}
+            <Route path="/books/:id" element={<BookDetails />} />
+            <Route path="/protected" element={<ProtectedRoute />} />
+            <Route path="/books/add" element={<AddBook />} />
             </Route>
           </Routes>
         </main>

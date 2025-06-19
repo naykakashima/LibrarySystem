@@ -25,7 +25,7 @@ export default function Login() {
     try {
       await login(formData);
       console.log('Submitting:', formData);
-      navigate('/');
+      navigate('/books');
     } catch (err) {
       setError('Failed to login. Please check your credentials.');
       console.error(err);

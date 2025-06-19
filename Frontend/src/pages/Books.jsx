@@ -4,7 +4,6 @@ import { bookService } from '../api/booksService';
 
 export default function Books() {
   const [books, setBooks] = useState([]);
-  const [selectedBookId, setSelectedBookId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
