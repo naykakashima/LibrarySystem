@@ -63,6 +63,8 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            NameClaimType = "sub",
+            RoleClaimType = "role",
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,

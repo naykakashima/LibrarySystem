@@ -13,20 +13,22 @@ namespace LibrarySystem
             _repo = repo;
         }
 
-        public async Task<(bool Success, string Message)> BorrowBookAsync(string title)
+        public async Task<(bool Success, string Message)> BorrowBookAsync(Guid id, Guid userId)
         {
-            var book = await _repo.FindByTitleAsync(title);
+            var book = await _repo.GetByIdAsync(id);
 
             if (book == null || !book.CanBeBorrowed())
                 return (false, "Book cannot be borrowed!");
 
             book.Available = false;
+            book.BorrowedByUserId = userId;
+            await _repo.SaveChangesAsync();
             return (true, "Book Successfully Borrowed");
         }
 
-        public async Task<(bool Success, string Message)> ReturnBookAsync(string title)
+        public async Task<(bool Success, string Message)> ReturnBookAsync(Guid id, Guid userId)
         {
-            var book = await _repo.FindByTitleAsync(title);
+            var book = await _repo.GetByIdAsync(id);
 
             if (book == null)
                 return (false, "Book Doesn't Exist");
@@ -34,6 +36,9 @@ namespace LibrarySystem
                 return (false, "Book isn't lent out in our system!");
 
             book.Available = true;
+            book.BorrowedByUserId = null;
+            book.BorrowedByUser = null;
+            await _repo.SaveChangesAsync();
             return (true, "Book Successfully Returned");
         }
 

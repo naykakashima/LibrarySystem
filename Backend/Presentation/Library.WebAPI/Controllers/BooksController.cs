@@ -1,7 +1,9 @@
-﻿using LibrarySystem;
-using Microsoft.AspNetCore.Mvc;
+﻿using Library.Application.DTO;
+using LibrarySystem;
 using LibrarySystem.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 
 namespace Library.WebAPI.Controllers
@@ -101,6 +103,50 @@ namespace Library.WebAPI.Controllers
 
                 return Ok(result.Message);
 
+            }
+        }
+
+        [Authorize]
+        [HttpPut("BorrowBook/{id}")]
+        public async Task<IActionResult> BorrowBook(Guid id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized("Invalid token");
+            }
+            var result = await _bookService.BorrowBookAsync(id, userId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            else
+            {
+                return Ok(result.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPut("ReturnBook/{id}")]
+        public async Task<IActionResult> ReturnBook(Guid id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Console.Write(userIdClaim);
+            if (userIdClaim == null || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized("Invalid token");
+            }
+
+            var result = await _bookService.ReturnBookAsync(id, userId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            else
+            {
+                return Ok(result.Message);
             }
         }
 

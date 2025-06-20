@@ -4,6 +4,7 @@ using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250620022812_AddBorrowedByUserRelation")]
+    partial class AddBorrowedByUserRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,8 +95,7 @@ namespace LibrarySystem.Migrations
                 {
                     b.HasOne("LibrarySystem.User", "BorrowedByUser")
                         .WithMany()
-                        .HasForeignKey("BorrowedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("BorrowedByUserId");
 
                     b.Navigation("BorrowedByUser");
                 });

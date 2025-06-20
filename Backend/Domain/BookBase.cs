@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -25,5 +27,7 @@ namespace LibrarySystem
 
         //VIRTUAL METHOD
         public virtual bool CanBeBorrowed() => Available;
+        public Guid? BorrowedByUserId { get; set; } // FK to User
+        public User? BorrowedByUser { get; set; }
     }
 }

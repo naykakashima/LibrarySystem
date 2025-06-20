@@ -20,7 +20,11 @@ namespace LibrarySystem.Database
             modelBuilder.Entity<User>().HasKey(u => u.Id);
 
             // Configure GUID as PK
-            modelBuilder.Entity<BookBase>().HasKey(b => b.Id);
+            modelBuilder.Entity<BookBase>()
+                .HasOne(b => b.BorrowedByUser)
+                .WithMany() // or .WithMany(u => u.BorrowedBooks) if you add collection nav on User
+                .HasForeignKey(b => b.BorrowedByUserId)
+                .OnDelete(DeleteBehavior.SetNull); // optional but useful
         }
     }
 
