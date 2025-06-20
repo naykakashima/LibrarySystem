@@ -1,4 +1,5 @@
 ﻿using Library.Application.Interfaces;
+using Library.Domain.Roles;
 using LibrarySystem;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +30,7 @@ namespace Library.Infrastructure.Security
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -39,7 +41,7 @@ namespace Library.Infrastructure.Security
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
                 );
 
@@ -47,5 +49,3 @@ namespace Library.Infrastructure.Security
         }
     }
 }
-
-//FIX LOGIN LOGIC , INVALID TOKEN ISSUE

@@ -18,6 +18,7 @@ namespace LibrarySystem.Database
             modelBuilder.Entity<AudioBook>().ToTable("Books_Audio");
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            
 
             // Configure GUID as PK
             modelBuilder.Entity<BookBase>()
@@ -25,6 +26,8 @@ namespace LibrarySystem.Database
                 .WithMany() // or .WithMany(u => u.BorrowedBooks) if you add collection nav on User
                 .HasForeignKey(b => b.BorrowedByUserId)
                 .OnDelete(DeleteBehavior.SetNull); // optional but useful
+
+
         }
     }
 

@@ -1,9 +1,11 @@
 ﻿using Library.Application.DTO;
 using Library.Application.Interfaces;
+using LibrarySystem;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Library.WebAPI.Controllers
 {

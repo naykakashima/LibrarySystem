@@ -1,4 +1,5 @@
 ﻿using Library.Application.DTO;
+using Library.Domain.Roles;
 using LibrarySystem;
 using LibrarySystem.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,7 @@ namespace Library.WebAPI.Controllers
             return Ok(book);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [Authorize]
         [HttpPost("AddBook")]
         public async Task<IActionResult> AddBook([FromBody] BookDto newBook)
@@ -51,6 +53,7 @@ namespace Library.WebAPI.Controllers
             return Ok(newBook);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [Authorize]
         [HttpPost("AddAudioBook")]
         public async Task<IActionResult> AddAudioBook([FromBody] AudioBookDto newAudioBook)
@@ -66,6 +69,7 @@ namespace Library.WebAPI.Controllers
             return Ok(newAudioBook);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [Authorize]
         [HttpPut("UpdateBook/{id}")]
         public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBookDto dto)
@@ -85,7 +89,7 @@ namespace Library.WebAPI.Controllers
             }
         }
 
-
+        [Authorize(Roles = Roles.Admin)]
         [Authorize]
         [HttpDelete("DeleteBook/{id}")]
         public async Task<IActionResult> DeleteBook(Guid id)

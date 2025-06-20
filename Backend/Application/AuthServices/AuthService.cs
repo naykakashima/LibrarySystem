@@ -1,11 +1,13 @@
 ﻿using Library.Application.DTO;
+using Library.Application.Interfaces;
+using LibrarySystem;
+using Library.Domain.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Library.Application.Interfaces;
 
 
 
@@ -63,6 +65,7 @@ namespace LibrarySystem.Application.Auth
                 Token = token,
                 Username = user.Username,
                 Email = user.Email,
+                Role = user.Role
             };
         }
     }
