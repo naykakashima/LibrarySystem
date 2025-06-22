@@ -64,5 +64,13 @@ namespace Library.WebAPI.Controllers
             var username = User.Identity?.Name;
             return Ok($"Hey {username}!, Welcome to kay's library");
         }
+
+        [Authorize]
+        [HttpGet("debug/claims")]
+        public IActionResult DebugClaims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value });
+            return Ok(claims);
+        }
     }
 }

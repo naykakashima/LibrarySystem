@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { bookService } from '../api/booksService';
 import { useParams } from 'react-router-dom';
 import BookDetailsCard from '../components/BookDetailsCard';
+import DeleteBook from '../components/DeleteBook';
 
 
 export default function BookDetails() {
@@ -32,14 +33,20 @@ export default function BookDetails() {
 
     return(
         <div className="max-w-2xl mx-auto mt-10">
-            <h1 className="text-3xl font-bold mb-6">Book Details</h1>
+            <div>
+                <h1 className="text-3xl font-bold mb-6">Book Details</h1>
 
-            <BookDetailsCard 
-            book={book}
-            author={book.author}
-            title={book.title}
-            available={book.available}
-            />
+                    <BookDetailsCard 
+                    book={book}
+                    author={book.author}
+                    title={book.title}
+                    available={book.available}
+                    />
+
+            </div>
+            <div className='mx-auto mt-10 gap-4'>
+                <DeleteBook/>
+            </div>
 
         </div>
     )

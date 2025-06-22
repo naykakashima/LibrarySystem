@@ -114,6 +114,10 @@ class BookService {
   async deleteBook(id) {
     const response = await fetch(`${API_BASE_URL}/Books/DeleteBook/${id}`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeader(),
+      },
     });
     
     if (!response.ok) {

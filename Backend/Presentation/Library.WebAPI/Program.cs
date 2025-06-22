@@ -10,6 +10,7 @@ using LibrarySystem.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 
@@ -64,7 +65,7 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
         options.TokenValidationParameters = new TokenValidationParameters
         {
             NameClaimType = "sub",
-            RoleClaimType = "role",
+            RoleClaimType = ClaimTypes.Role,
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
