@@ -1,36 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { bookService } from '../api/booksService';
-import { useParams } from 'react-router-dom';
+import  BorrowButton  from '../components/BorrowButton';
+import  ReturnButton  from '../components/ReturnButton';
+import  { getCurrentUserId }  from '../api/auth';
 import { Flex, Text, Box, Card, Inset, Strong, Checkbox } from "@radix-ui/themes";
 
 
-export default function BookDetailsCard(){
+export default function BookDetailsCard({ book }) {
+  const [hasBorrowed, setHasBorrowed] = useState(false);
+  const [ currentUserId, setCurrentUserId ] = useState(null);
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [book, setBook] = useState(null);
+  useEffect(() => {
+    const id = getCurrentUserId();
+    setCurrentUserId(id);
+    setHasBorrowed(book.borrowedByUserId === id );
+    console.log("book:", book);
+    console.log("currentUserId:", id);
+    console.log("borrowedByUserId:", book?.borrowedByUserId);
+    console.log("hasBorrowed:", book?.borrowedByUserId === id);
+  }, [book]);
 
-    const { id } = useParams(); 
-    const [ available, setAvailable ] = useState(false);
-
-    useEffect(() => {
-        const fetchBookDetails = async () => {
-            try {
-                const data = await bookService.getBookById(id);
-                setBook(data);
-            } catch (err) {
-                setError('Failed to fetch book details');
-                console.error(err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchBookDetails();
-        }, [id]);
-
-        if (isLoading) return <div>Loading book details...</div>;
-        if (error) return <div>{error}</div>;
+  const showBorrow = book.available && !hasBorrowed;
+  const showReturn = !book.available && hasBorrowed;
 
   return (
     <div>
@@ -50,6 +40,11 @@ export default function BookDetailsCard(){
                         <Checkbox checked={book.available} readOnly />
                     </Flex>
                 </Text>
+
+                <Flex mt="3" justify='center'>
+                    { showReturn && <ReturnButton/> }
+                    { showBorrow && <BorrowButton/> }
+                </Flex>
             </Card>
         </Box>  
     </div>

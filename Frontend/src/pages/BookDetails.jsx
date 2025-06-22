@@ -39,11 +39,7 @@ export default function BookDetails() {
             author={book.author}
             title={book.title}
             available={book.available}
-             />
-
-            book.available
-            ? <BorrowButton />
-            : <ReturnButton />
+            />
 
         </div>
     )

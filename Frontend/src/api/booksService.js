@@ -1,5 +1,6 @@
 const API_BASE_URL = 'https://localhost:7237/api';
 
+
 function getToken() {
   try {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -19,7 +20,6 @@ function authHeader() {
   }
   return {};
 }
-
 const token = getToken();
 
 class BookService {
@@ -119,6 +119,38 @@ class BookService {
     if (!response.ok) {
       const errorData = await response.text();
       throw new Error(errorData || 'Failed to delete book');
+    }
+    return response.text();
+  }
+
+  async borrowBook(id) {
+    const response = await fetch(`${API_BASE_URL}/Books/BorrowBook/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...authHeader()
+      }
+    }
+    );
+    
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || 'Failed to borrow book');
+    }
+    return response.text();
+  }
+
+  async returnBook(id) {
+    const response = await fetch(`${API_BASE_URL}/Books/ReturnBook/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...authHeader()
+      }
+    }
+    );
+    
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || 'Failed to return book');
     }
     return response.text();
   }

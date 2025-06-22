@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 const API_URL = 'https://localhost:7237/api/Auth';
 
@@ -32,9 +33,23 @@ const getProtectedData = async (token) => {
     return response.data;
 };
 
+export const getCurrentUserId = () => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.token) return null;
+
+    const decoded = jwtDecode(user.token); // ✅ note this change
+    return decoded.sub;
+  } catch (error) {
+    console.error("Failed to get current user ID", error);
+    return null;
+  }
+};
+
 export default {
   register,
   login,
   logout,
-  getProtectedData
+  getProtectedData,
+  getCurrentUserId
 };
