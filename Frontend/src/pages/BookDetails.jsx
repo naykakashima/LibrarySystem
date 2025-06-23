@@ -44,10 +44,6 @@ export default function BookDetails() {
                     />
 
             </div>
-            <div className='mx-auto mt-10 gap-4'>
-                <DeleteBook/>
-            </div>
-
         </div>
     )
 }

@@ -46,10 +46,25 @@ export const getCurrentUserId = () => {
   }
 };
 
+export const getCurrentUserRole = () => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.token) return null;
+
+    const decoded = jwtDecode(user.token); // ✅ note this change
+    console.log(decoded.role)
+    return decoded.role;
+  } catch (error) {
+    console.error("Failed to get current user role", error);
+    return null;
+  }
+};
+
 export default {
   register,
   login,
   logout,
   getProtectedData,
-  getCurrentUserId
+  getCurrentUserId,
+  getCurrentUserRole
 };

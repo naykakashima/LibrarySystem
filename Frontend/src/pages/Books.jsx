@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { bookService } from '../api/booksService';
+import  { getCurrentUserRole }  from '../api/auth';
 
 export default function Books() {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [ isAdmin, setIsAdmin ] = useState(false); 
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
+        const role = getCurrentUserRole();
+        setIsAdmin(role === 'Admin')
         const data = await bookService.getAllBooks();
         setBooks(data);
       } catch (err) {
@@ -30,12 +34,18 @@ export default function Books() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Books</h2>
+
+        { isAdmin && 
+        
         <Link 
           to="/books/add" 
           className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
         >
           Add Book
-        </Link>
+        </Link> 
+        
+        }
+        
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
