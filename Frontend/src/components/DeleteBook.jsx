@@ -3,7 +3,7 @@ import { Button } from "@radix-ui/themes"
 import { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function DeleteBook() {
+export default function DeleteBook({ className }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -29,8 +29,14 @@ export default function DeleteBook() {
     return(
         <>
         {error && <div>{error}</div>}
-        <Button size="3" variant="soft" onClick={handleDelete} disabled={isLoading}>
-        {isLoading ? "Processing..." : "Delete Book"}
+        <Button
+            size="3"
+            variant="solid"
+            className={`bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-md transition-all duration-200 ${className}`}
+            onClick={handleDelete}
+            disabled={isLoading}
+            >
+            {isLoading ? "Processing..." : "Delete Book"}
         </Button>
         </>
     )

@@ -3,7 +3,7 @@ import { bookService } from '../api/booksService';
 import { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function ReturnButton () {
+export default function ReturnButton ({ className }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -27,9 +27,14 @@ export default function ReturnButton () {
     
     return (
         <>
-        {error && <div>{error}</div>}
-        <Button size="3" variant="soft" onClick={handleReturn} disabled={isLoading}>
-        {isLoading ? "Processing..." : "Return Book"}
+        <Button
+            size="3"
+            variant="solid"
+            className={`bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-xl shadow-md transition-all duration-200 ${className}`}
+            onClick={handleReturn}
+            disabled={isLoading}
+            >
+            {isLoading ? "Processing..." : "Return Book"}
         </Button>
         </>
     )

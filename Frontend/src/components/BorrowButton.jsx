@@ -3,7 +3,7 @@ import  { bookService } from '../api/booksService';
 import { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function BorrowButton () {
+export default function BorrowButton ({ className }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -30,8 +30,14 @@ export default function BorrowButton () {
     return (
         <>
         {error && <div>{error}</div>}
-        <Button size="3" variant="soft" onClick={handleBorrow} disabled={isLoading}>
-        {isLoading ? "Processing..." : "Borrow Book"}
+        <Button
+            size="3"
+            variant="solid"
+            className={`bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl shadow-md transition-all duration-200 ${className}`}
+            onClick={handleBorrow}
+            disabled={isLoading}
+            >
+            {isLoading ? "Processing..." : "Borrow Book"}
         </Button>
         </>
     )

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { bookService } from '../api/booksService';
 import  { getCurrentUserRole }  from '../api/auth';
+import { motion } from "motion/react";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
@@ -49,9 +50,15 @@ export default function Books() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {books.map(book => (
-          <div key={book.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-            <h3 className="font-bold text-lg">{book.title}</h3>
+        {books.map((book, i) => (
+          <motion.div
+            key={book.id}
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: i * 0.1, duration: 0.4 }}
+            className="bg-white rounded-xl p-5 border border-gray-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-md transition-shadow"
+          >
+            <h3 className="font-bold text-lg text-gray-800">{book.title}</h3>
             <p className="text-gray-600">{book.author}</p>
             <Link 
               to={`/books/${book.id}`} 
@@ -59,7 +66,7 @@ export default function Books() {
             >
               View Details
             </Link>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

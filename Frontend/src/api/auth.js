@@ -20,6 +20,7 @@ const login = async (userData) => {
 
 const logout = () => {
   localStorage.removeItem('user');
+  window.location.href = '/'; 
 }
 
 const getProtectedData = async (token) => {
