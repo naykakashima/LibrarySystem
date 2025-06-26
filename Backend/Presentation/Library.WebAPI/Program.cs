@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using Jose;
 using Library.Application.Interfaces;
@@ -85,6 +85,24 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:5173") // Vite's dev server
               .AllowAnyHeader()
               .AllowAnyMethod();
+
+        policy.WithOrigins("https://localhost:5173") // Vite's dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+
+        policy.WithOrigins("http://frontend:5173") // Docker service name → internal access
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+
+        options.AddPolicy("AllowAllDev", policy =>
+        {
+            policy
+                .SetIsOriginAllowed(_ => true) // Accept all origins
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
     });
 });
 

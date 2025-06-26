@@ -17,11 +17,11 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  const register = async (userData) => {
-    const response = await authService.register(userData);
-    setUser(response);
-    return response;
-  };
+  // const register = async (userData) => {
+  //   const response = await authService.register(userData);
+  //   setUser(response);
+  //   return response;
+  // };
 
   const login = async (userData) => {
     const response = await authService.login(userData);
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, register, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

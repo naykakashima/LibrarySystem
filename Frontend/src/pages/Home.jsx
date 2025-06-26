@@ -20,6 +20,9 @@ const features = [
 ];
 
 function Home() {
+
+  console.log("🧪 VITE_API_URL:", import.meta.env.VITE_API_URL);
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <motion.h1

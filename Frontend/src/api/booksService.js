@@ -1,4 +1,7 @@
-const API_BASE_URL = 'https://localhost:7237/api';
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api`;
+if (import.meta.env.DEV) {
+  console.log("📡 API_BASE_URL:", API_BASE_URL);
+}
 
 
 function getToken() {

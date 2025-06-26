@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = 'https://localhost:7237/api/Auth';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/Auth`;
 
 // Register user
 const register = async (userData) => {
