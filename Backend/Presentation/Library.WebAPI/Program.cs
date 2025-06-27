@@ -82,23 +82,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // Vite's dev server
+        policy.WithOrigins("http://43.94.1.20:5173") // Vite's dev server
               .AllowAnyHeader()
               .AllowAnyMethod();
-
-        policy.WithOrigins("https://localhost:5173") // Vite's dev server
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-
-        policy.WithOrigins("http://frontend:5173") // Docker service name → internal access
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
 
         options.AddPolicy("AllowAllDev", policy =>
         {
             policy
-                .SetIsOriginAllowed(_ => true) // Accept all origins
+                .SetIsOriginAllowed(_ => true) 
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
